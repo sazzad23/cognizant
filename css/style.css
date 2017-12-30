@@ -1,0 +1,236 @@
+@font-face {
+    font-family: 'ScreenMatrix';
+    src: url('../fonts/ScreenMatrix.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/ScreenMatrix.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/ScreenMatrix.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/ScreenMatrix.woff') format('woff'), /* Pretty Modern Browsers */
+       url('../fonts/ScreenMatrix.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/ScreenMatrix.svg') format('svg');
+}
+html{
+    //background: url(../assets/images/background.png) no-repeat center center /cover;
+    min-height: 100%;
+}
+body{
+    font-family: 'Roboto';
+    font-weight: 400;
+    overflow-x: hidden;
+}
+h1,h2,h3,h4{
+    font-weight: 700;
+    margin: 0;
+}
+p{
+    margin-bottom: 0;
+}
+ul{
+	padding-left:0;
+        margin: 0px;
+}
+#particle-canvas {
+  width: 100vw;
+  height: 100vh;
+}
+.section{
+    position:absolute;
+    top:0px;
+    left:0px;
+    height: 100vh;
+    width: 100%;
+    z-index: 999;
+    padding: 30px 20px;
+}
+img.logo-1 {
+    width: 100%;
+    max-width: 300px;
+}
+img.logo-2 {
+    width: 100%;
+    max-width: 195px;
+}
+.sectionOne{
+    height:100%;
+}
+.mid-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.mid-logo img {
+    width: 100%;
+    max-width: 625px;
+        opacity: 0;
+}
+p.bottom-text {
+    color: #fff;
+    text-align: center;
+    font-size: 23px;
+    position: absolute;
+    bottom: 27px;
+    left: 0px;
+    width: 100%;
+}
+.content-wrapper{
+    display:flex;
+    min-height: 100vh;
+}
+.content-left{
+    width: 450px;
+    background: #fff;
+    padding: 20px;
+}
+.content-right{
+    width: 100%;
+    max-width: calc(100vw - 450px);
+    background: #000;
+}
+.logo img{
+    width: 100%;
+    max-width: 160px;
+}
+.logo-2 img {
+    width: 100%;
+    margin: 25px auto 40px auto;
+    max-width: 300px;
+    display: block;
+}
+.ini-title {
+    font-size: 24px;
+    padding: 96px 40px;
+}
+.questions{
+    list-style-type: none;
+        padding: 70px 40px;
+        -webkit-transition: all .2s;
+        -moz-transition: all .2s;
+        transition: all .2s;
+}
+.questions li{  
+    text-align: center;
+    margin-bottom: 30px;
+}
+.questions li a{
+    font-family: 'ScreenMatrix';
+    display: inline-block;
+    color: #fff;
+    font-size: 24px;
+    border: 1px solid #f49e1f;
+    padding: 10px;
+    text-decoration: none;
+}
+.questions li a:hover{
+    background: #f49e1f;
+}
+.q-single h3 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 40px;
+    color:#000;
+}
+.question-ans ul{
+    padding: 10px 30px;
+    padding-bottom: 30px;
+}
+.question-ans ul li{
+    color:#000;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+.q-single{
+    display: none;
+     -webkit-transition: all .2s;
+        -moz-transition: all .2s;
+        transition: all .2s;
+        padding-top: 68px;
+}
+.counter {
+    min-height: 100%;
+    padding: 50px;
+    text-align: center;
+    position: relative;
+    display: none;
+}
+.counter h2 {
+    color: #fff;
+    font-family: 'ScreenMatrix';
+    padding-top: 128px;
+    padding-bottom: 30px;
+}
+.counter .number {
+    color: #fff;
+    font-family: 'ScreenMatrix';
+    font-size: 165px;
+    padding-bottom: 20px;
+}
+.clock {
+       text-align: right;
+    position: absolute;
+    bottom: 32px;
+    right: 37px;
+}
+.clock img {
+    height: 160px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+}
+.clock-inner {
+    font-family: 'ScreenMatrix';
+    display: inline-block;
+    color: #fff;
+    font-size: 40px;
+    border: 1px solid #f49e1f;
+    min-width: 164px;
+    text-align: center;
+}
+#main{
+    display: none;
+}
+.sec-bottom{
+    display: none;
+z-index: 99999;
+}
+.sec-bottom p.bottom-text{
+     font-family: 'ScreenMatrix';
+        text-align: left;
+    font-size: 46px;
+}
+
+.sec-bottom p.bottom-text img {
+    height: 128px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.sec-bottom .mid-logo h2{
+    font-family: 'ScreenMatrix';
+    text-align: center;
+    color:#fff;
+}
+.sec-bottom .mid-logo h2 {
+    font-family: 'ScreenMatrix';
+    text-align: center;
+    color: #fff;
+    font-size: 45px;
+    padding-bottom: 28px;
+}
+.sec-bottom .mid-logo p {
+    font-family: 'ScreenMatrix';
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    padding-bottom: 15px;
+}
+.sec-bottom .mid-logo {
+    top: 36%;
+}
+
+
+
+
+
+

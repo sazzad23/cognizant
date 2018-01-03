@@ -14,6 +14,7 @@
         mkdir($path, 0777, true);
     }
     
-    file_put_contents($path . '/' . $file, base64_decode($_POST['video']));
-    echo 'video saved successfully';
+    $file_path = $path . '/' . $file;
+    file_put_contents( $file_path, base64_decode($_POST['video']));
+    echo json_encode( array('message'=>'video saved successfully', 'video_id' => $file_path) );
     ?>

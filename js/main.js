@@ -1,6 +1,8 @@
 // particle.min.js hosted on GitHub
 // Scroll down for initialisation code
-
+var QuestionIndex = '';
+var total_time_seconds = 40;
+var waiting_time_seconds = 3;
 !function (a) {
     var b = "object" == typeof self && self.self === self && self || "object" == typeof global && global.global === global && global;
     "function" == typeof define && define.amd ? define(["exports"], function (c) {
@@ -101,7 +103,7 @@ var particleCanvas = new ParticleNetwork(canvasDiv, options);
 $(document).ready(function () {
 
     var mediaRecorder;
-
+    var video_id = '';
     var videosContainer = document.getElementsByClassName('counter');
     var mediaConstraints = {
         audio: false, //!IsOpera && !IsEdge, // record both audio/video in Firefox/Chrome
@@ -115,8 +117,8 @@ $(document).ready(function () {
     function onMediaSuccess(stream) {
         var video = document.createElement('video');
 
-        var videoWidth = $('.counter').width() || 320;
-        var videoHeight = $('.counter').height() || 240;
+        var videoWidth = $('.counter').width() - 30 || 320;
+        var videoHeight = $('.counter').height() - 40 || 240;
 
         video = mergeProps(video, {
             controls: true,
@@ -126,8 +128,9 @@ $(document).ready(function () {
         });
         video.srcObject = stream;
         video.play();
-
+                  $(videosContainer).children("h2:first").hide();
         $(videosContainer).append(video);
+                  
 
         mediaRecorder = new MediaStreamRecorder(stream);
         mediaRecorder.stream = stream;
@@ -137,10 +140,18 @@ $(document).ready(function () {
         mediaRecorder.recorderType = MediaRecorderWrapper;
         mediaRecorder.videoWidth = videoWidth;
         mediaRecorder.videoHeight = videoHeight;
-
+                  var saved = false;
+                  
         mediaRecorder.ondataavailable = function (blob) {
+                  $(videosContainer).children("video:first").remove();
             //here we stop recording also if any event needs to be fired for video end we ccan use it to do this
-            console.info('blob', blob);
+                 if(saved)
+                  {
+                  return;
+                  }
+                  
+                  saved = true;
+            //console.info('blob', blob);
                   var blobUrl = URL.createObjectURL(blob);
                   
                   var xhr = new XMLHttpRequest;
@@ -153,17 +164,20 @@ $(document).ready(function () {
                   
                   reader.onload = function() {
                   var blobAsDataUrl = reader.result;
-                  console.log(blobAsDataUrl);
+                  //console.log(blobAsDataUrl);
                   //window.location = blobAsDataUrl;
                   $.ajax({
                          type: "POST",
-                         url: 'https://www.peacockindia.in/cts/save_video.php',
-                         data: {'type':'1','video':blobAsDataUrl.split(',')[1]},
+                         url: 'http://localhost/cognizant/save_video.php',
+                         data: {'type':QuestionIndex,'video':blobAsDataUrl.split(',')[1]},
                          success: function(response){
-                         alert(JSON.stringify(response));
+                            //alert(JSON.stringify(response));
+                         var obj = JSON.parse(response);
+                            video_id = obj['video_id'];
+                         alert(obj['message']);
                          },
                          error: function(response){
-                         alert(JSON.stringify(response));
+                          alert(JSON.stringify(response));
                          },
                          });
                   
@@ -175,13 +189,27 @@ $(document).ready(function () {
                   xhr.open('GET', blobUrl);
                   xhr.send();
             video.pause();
-            $(videosContainer).remove();
+            //$(videosContainer).remove();
             mediaRecorder.stop();
             // uploadToPHPServer(blob);
         };
 
+                  
         // get blob after specific time interval
-        mediaRecorder.start(5*1000);
+                  var seconds = total_time_seconds - 1;
+        var timer = setInterval(function(){
+                                $('.clock-inner').html('00:' + ((seconds< 10)? '0' + seconds:seconds ));
+                                seconds--;
+                                
+                                if(seconds < 0)
+                                {
+                                    clearInterval(timer);
+                                $('.clock').hide();
+                                }
+                                
+                                
+                                },1000);
+        mediaRecorder.start(total_time_seconds*1000);
     }
 
     function onMediaError(e) {
@@ -192,12 +220,25 @@ $(document).ready(function () {
         event.preventDefault();
 
         var getQuestionIndex = $(this).attr('data-question');
-
+                            QuestionIndex = getQuestionIndex;
         $('.questions, .ini-title').hide();
         $('.counter').fadeIn(300);
         $('.q-single[data-question="' + getQuestionIndex + '"]').fadeIn(400);
-
-        captureUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+                            var waiting = waiting_time_seconds - 1;
+                            var timer = setInterval(function(){
+                                       $('.number').html(waiting);
+                                                   waiting -= 1;
+                                                   if(waiting < 0)
+                                                   {
+                                                    clearInterval(timer);
+                                                    $('.number').html('');
+                                                    captureUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+                                                   }
+                                                   
+                                       } ,1000);
+                            
+                            setTimeout(function() {  }, 4000);
+        
     });
 
     $('#go-next').on('click', function (event) {

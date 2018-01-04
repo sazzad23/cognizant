@@ -1,6 +1,6 @@
 <?php
     
-    if(!$_POST['type'] || !$_POST['video'])
+    if(!isset($_POST['type']) || !isset($_POST['video']) || !$_POST['type'] || !$_POST['video'])
     {
         echo 'missing params';
         return;

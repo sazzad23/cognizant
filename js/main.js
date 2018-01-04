@@ -3,6 +3,7 @@
 var QuestionIndex = '';
 var total_time_seconds = 40;
 var waiting_time_seconds = 3;
+var videoURL = "";
 !function (a) {
     var b = "object" == typeof self && self.self === self && self || "object" == typeof global && global.global === global && global;
     "function" == typeof define && define.amd ? define(["exports"], function (c) {
@@ -121,16 +122,16 @@ $(document).ready(function () {
         var videoHeight = $('.counter').height() - 40 || 240;
 
         video = mergeProps(video, {
-            controls: true,
+            controls: false,
             muted: false,
             width: videoWidth,
             height: videoHeight
         });
         video.srcObject = stream;
         video.play();
-                  $(videosContainer).children("h2:first").hide();
+        $(videosContainer).children("h2:first").hide();
         $(videosContainer).append(video);
-                  
+
 
         mediaRecorder = new MediaStreamRecorder(stream);
         mediaRecorder.stream = stream;
@@ -140,76 +141,85 @@ $(document).ready(function () {
         mediaRecorder.recorderType = MediaRecorderWrapper;
         mediaRecorder.videoWidth = videoWidth;
         mediaRecorder.videoHeight = videoHeight;
-                  var saved = false;
-                  
+        var saved = false;
+
         mediaRecorder.ondataavailable = function (blob) {
-                  $(videosContainer).children("video:first").remove();
+            $(videosContainer).children("video:first").remove();
             //here we stop recording also if any event needs to be fired for video end we ccan use it to do this
-                 if(saved)
-                  {
-                  return;
-                  }
-                  
-                  saved = true;
+            if (saved) {
+                return;
+            }
+
+            saved = true;
             //console.info('blob', blob);
-                  var blobUrl = URL.createObjectURL(blob);
-                  
-                  var xhr = new XMLHttpRequest;
-                  xhr.responseType = 'blob';
-                  
-                  xhr.onload = function() {
-                  var recoveredBlob = xhr.response;
-                  
-                  var reader = new FileReader;
-                  
-                  reader.onload = function() {
-                  var blobAsDataUrl = reader.result;
-                  //console.log(blobAsDataUrl);
-                  //window.location = blobAsDataUrl;
-                  $.ajax({
-                         type: "POST",
-                         url: 'http://localhost/cognizant/save_video.php',
-                         data: {'type':QuestionIndex,'video':blobAsDataUrl.split(',')[1]},
-                         success: function(response){
+            var blobUrl = URL.createObjectURL(blob);
+
+            var xhr = new XMLHttpRequest;
+            xhr.responseType = 'blob';
+
+            var reader = new FileReader;
+
+            xhr.onload = function () {
+                var recoveredBlob = xhr.response;
+
+                reader.onload = function () {
+                    // rerun saved video
+
+                    var blobAsDataUrl = reader.result;
+                    //console.log(blobAsDataUrl);
+                    //window.location = blobAsDataUrl;
+                    $.ajax({
+                        type: "POST",
+                        url: 'save_video.php',
+                        data: {'type': QuestionIndex, 'video': blobAsDataUrl.split(',')[1]},
+                        success: function (response) {
                             //alert(JSON.stringify(response));
-                         var obj = JSON.parse(response);
+                           //console.log(JSON.stringify(response));
+                            var obj = JSON.parse(response);
                             video_id = obj['video_id'];
-                         alert(obj['message']);
-                         },
-                         error: function(response){
-                          alert(JSON.stringify(response));
-                         },
-                         });
-                  
-                  };
-                  
-                  reader.readAsDataURL(recoveredBlob);
-                  };
-                  
-                  xhr.open('GET', blobUrl);
-                  xhr.send();
-            video.pause();
+
+                            videoURL = video_id;
+
+                            $('#main').slideUp(400);
+                            $('.section.sec-bottom').slideDown(400);
+                            $('#particle-canvas').toggle();
+                        },
+                        error: function (response) {
+                            alert(JSON.stringify(response));
+                        }
+                    });
+
+                };
+
+                reader.readAsDataURL(recoveredBlob);
+            };
+
+            xhr.open('GET', blobUrl);
+            xhr.send();
+            // video.pause();
+
             //$(videosContainer).remove();
             mediaRecorder.stop();
-            // uploadToPHPServer(blob);
+
+            // stop using camera
+            var track = stream.getTracks()[0];  // if only one media track
+            track.stop();
+
         };
 
-                  
+
         // get blob after specific time interval
-                  var seconds = total_time_seconds - 1;
-        var timer = setInterval(function(){
-                                $('.clock-inner').html('00:' + ((seconds< 10)? '0' + seconds:seconds ));
-                                seconds--;
-                                
-                                if(seconds < 0)
-                                {
-                                    clearInterval(timer);
-                                $('.clock').hide();
-                                }
-                                
-                                
-                                },1000);
-        mediaRecorder.start(total_time_seconds*1000);
+        var seconds = total_time_seconds - 1;
+        var timer = setInterval(function () {
+            $('.clock-inner').html('00:' + ((seconds < 10) ? '0' + seconds : seconds ));
+            seconds--;
+            if (seconds < 0) {
+                clearInterval(timer);
+                $('.clock').hide();
+                $('.clock-inner').html('00:40');
+            }
+        }, 1000);
+        mediaRecorder.start(total_time_seconds * 1000);
     }
 
     function onMediaError(e) {
@@ -218,34 +228,72 @@ $(document).ready(function () {
 
     $('.questions li a').on('click', function (event) {
         event.preventDefault();
-
+        $('.counter').css("display","block");
+        $('.number').show();
+        $('.clock').show();
+        $(videosContainer).children("h2:first").show();
         var getQuestionIndex = $(this).attr('data-question');
-                            QuestionIndex = getQuestionIndex;
+        QuestionIndex = getQuestionIndex;
         $('.questions, .ini-title').hide();
         $('.counter').fadeIn(300);
         $('.q-single[data-question="' + getQuestionIndex + '"]').fadeIn(400);
-                            var waiting = waiting_time_seconds - 1;
-                            var timer = setInterval(function(){
-                                       $('.number').html(waiting);
-                                                   waiting -= 1;
-                                                   if(waiting < 0)
-                                                   {
-                                                    clearInterval(timer);
-                                                    $('.number').html('');
-                                                    captureUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
-                                                   }
-                                                   
-                                       } ,1000);
-                            
-                            setTimeout(function() {  }, 4000);
-        
+        var waiting = waiting_time_seconds - 1;
+        var timer = setInterval(function () {
+            $('.number').html(waiting);
+            waiting -= 1;
+            if (waiting < 0) {
+                clearInterval(timer);
+                $('.number').html('3').hide();
+                captureUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+            }
+
+        }, 1000);
     });
 
     $('#go-next').on('click', function (event) {
         event.preventDefault();
 
-        $('.sec-top, #particle-canvas').slideUp(400);
-        $('#main').slideDown(400);
+                     $('.sec-top, #particle-canvas').slideUp(400);
+                     $('#main').slideDown(400);
+                     
+                     $('.counter').css("display","none");
+                     $('.questions').css("display","block");
+    });
 
+    $(".watch-replay").on('click', function (event) {
+        event.preventDefault();
+
+        $('.thankyou-section .main-content').toggle();
+
+        var video = document.createElement('video');
+
+        var videoWidth = $('.thankyou-section').width() - 30 || 320;
+        var videoHeight = $('.thankyou-section').height() - 40 || 240;
+
+        video = mergeProps(video, {
+            controls: true,
+            muted: false,
+            width: videoWidth,
+            height: videoHeight
+        });
+
+        video.src = videoURL;
+        video.play();
+
+        var crossIcon = '<div class="cross-icon pull-right" style="background-color: white" ><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABRUlEQVQ4T63USUpEMRDG8X+v1PvoGXrh3glth4ULF4IgXsKFSiMiOIvzgK7Es9mKfJCSMl3Je4JZdiW/1EtVdYd/Xh3njQIHwBtw3/KeFWACWAc+dMZAYS9AF/gC5oGbBnQVOEx7noBZoQaeAz0HNKEes2N9ZWqgMrpwGWuT0AXgOss0wj6BKeDZv+EScBKgyvwqoSVMn/vg39CSWAaOA3QNGAN2smyV2Q8WgfpNlTvK0Kg+Q1gJbIOGWA1UTL21V2gdvetlFPNFyeObwHYB1Fuf/QVUEfYrjV3s0yjDJszuCdEcjDAVQJVX22jW/Zmh5vfBEjYDPKa0FoHTWvMbGE3AABCmwferhM4BdwbqVo2erRJm8QjdBTYMHEmZTALCpjXolSor5NHb9Ecy8G8oVLP6Drw2YBbWZ44DWymRXxVradS3fQPJ71AVG4hrnAAAAABJRU5ErkJggg==" /></div>';
+
+        $(".thankyou-section .video-content").append(crossIcon);
+        $(".thankyou-section .video-content").append(video);
+
+    });
+
+    $('.thankyou-section').on('click', '.cross-icon', function () {
+        $(".thankyou-section .video-content").empty();
+        $('.thankyou-section .main-content').toggle();
+    });
+
+    $('.thankyou-main-logo').on('click', function (event) {
+        $('.section.sec-bottom').slideUp(400);
+        $('.sec-top').slideDown(400);
     });
 });

@@ -107,7 +107,7 @@ $(document).ready(function () {
     var video_id = '';
     var videosContainer = document.getElementsByClassName('counter');
     var mediaConstraints = {
-        audio: false, //!IsOpera && !IsEdge, // record both audio/video in Firefox/Chrome
+        audio: true, //!IsOpera && !IsEdge, // record both audio/video in Firefox/Chrome
         video: true
     };
 
@@ -123,7 +123,7 @@ $(document).ready(function () {
 
         video = mergeProps(video, {
             controls: false,
-            muted: false,
+            muted: true,
             width: videoWidth,
             height: videoHeight
         });
@@ -202,8 +202,9 @@ $(document).ready(function () {
             mediaRecorder.stop();
 
             // stop using camera
-            var track = stream.getTracks()[0];  // if only one media track
-            track.stop();
+            for (track of stream.getTracks()) {
+                  track.stop();
+            }
 
         };
 

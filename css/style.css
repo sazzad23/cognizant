@@ -16,6 +16,11 @@ body{
     font-weight: 400;
     overflow-x: hidden;
 }
+video{
+    width: 100%!important;
+    height: auto!important;
+    max-width: 1000px;
+}
 h1,h2,h3,h4{
     font-weight: 700;
     margin: 0;
@@ -154,6 +159,7 @@ p.bottom-text {
     text-align: center;
     position: relative;
     display: none;
+    padding-bottom: 250px;
 }
 .counter h2 {
     color: #fff;

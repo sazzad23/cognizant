@@ -159,7 +159,7 @@ p.bottom-text {
     text-align: center;
     position: relative;
     display: none;
-    padding-bottom: 250px;
+    padding-bottom: 114px;
 }
 .counter h2 {
     color: #fff;
@@ -184,6 +184,7 @@ p.bottom-text {
     margin-bottom: 10px;
     display: block;
     margin-left: auto;
+	display:none;
 }
 .clock-inner {
     font-family: 'ScreenMatrix';

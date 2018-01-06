@@ -1,11 +1,11 @@
 @font-face {
-    font-family: 'ScreenMatrix';
-    src: url('../fonts/ScreenMatrix.eot'); /* IE9 Compat Modes */
-    src: url('../fonts/ScreenMatrix.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../fonts/ScreenMatrix.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../fonts/ScreenMatrix.woff') format('woff'), /* Pretty Modern Browsers */
-       url('../fonts/ScreenMatrix.ttf')  format('truetype'), /* Safari, Android, iOS */
-       url('../fonts/ScreenMatrix.svg') format('svg');
+    font-family: 'Destruct';
+    src: url('../fonts/destructobeambbreg.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/destructobeambbreg.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/destructobeambbreg.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/destructobeambbreg.woff') format('woff'), /* Pretty Modern Browsers */
+       url('../fonts/destructobeambbreg.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/destructobeambbreg.svg') format('svg');
 }
 html{
     //background: url(../assets/images/background.png) no-repeat center center /cover;
@@ -92,7 +92,7 @@ p.bottom-text {
 .content-right{
     width: 100%;
     max-width: calc(100vw - 450px);
-    background: #000;
+    background: url(../assets/images/bk2.png) no-repeat center center /cover;
 }
 .logo img{
     width: 100%;
@@ -120,11 +120,10 @@ p.bottom-text {
     margin-bottom: 30px;
 }
 .questions li a{
-    font-family: 'ScreenMatrix';
+    font-family: 'Destruct';
     display: inline-block;
     color: #fff;
     font-size: 24px;
-    border: 1px solid #f49e1f;
     padding: 10px;
     text-decoration: none;
 }
@@ -163,13 +162,13 @@ p.bottom-text {
 }
 .counter h2 {
     color: #fff;
-    font-family: 'ScreenMatrix';
+    font-family: 'Destruct';
     padding-top: 128px;
     padding-bottom: 30px;
 }
 .counter .number {
     color: #fff;
-    font-family: 'ScreenMatrix';
+    font-family: 'Destruct';
     font-size: 165px;
     padding-bottom: 20px;
 }
@@ -187,7 +186,7 @@ p.bottom-text {
 	display:none;
 }
 .clock-inner {
-    font-family: 'ScreenMatrix';
+    font-family: 'Destruct';
     display: inline-block;
     color: #fff;
     font-size: 40px;
@@ -203,7 +202,7 @@ p.bottom-text {
 z-index: 99999;
 }
 .sec-bottom p.bottom-text{
-     font-family: 'ScreenMatrix';
+     font-family: 'Destruct';
         text-align: left;
     font-size: 46px;
 }
@@ -214,19 +213,19 @@ z-index: 99999;
     margin-right: 20px;
 }
 .sec-bottom .mid-logo h2{
-    font-family: 'ScreenMatrix';
+    font-family: 'Destruct';
     text-align: center;
     color:#fff;
 }
 .sec-bottom .mid-logo h2 {
-    font-family: 'ScreenMatrix';
+    font-family: 'Destruct';
     text-align: center;
     color: #fff;
     font-size: 45px;
     padding-bottom: 28px;
 }
 .sec-bottom .mid-logo p {
-    font-family: 'ScreenMatrix';
+    font-family: 'Destruct';
     text-align: center;
     color: #fff;
     font-size: 30px;

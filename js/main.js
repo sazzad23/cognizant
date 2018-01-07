@@ -118,8 +118,8 @@ $(document).ready(function () {
     function onMediaSuccess(stream) {
         var video = document.createElement('video');
 
-        var videoWidth = $('.counter').width() - 30 || 320;
-        var videoHeight = $('.counter').height() - 40 || 240;
+        var videoWidth = ($('.counter').width() - 30 || 320) * .75;
+        var videoHeight = ($('.counter').height() - 40 || 240)* .75;
 
         video = mergeProps(video, {
             controls: false,
@@ -268,8 +268,8 @@ $(document).ready(function () {
 
         var video = document.createElement('video');
 
-        var videoWidth = $('.thankyou-section').width() - 30 || 320;
-        var videoHeight = $('.thankyou-section').height() - 40 || 240;
+        var videoWidth = ($('.thankyou-section').width() - 30 || 320) * .75;
+        var videoHeight = ($('.thankyou-section').height() - 40 || 240) * .75;
 
         video = mergeProps(video, {
             controls: true,

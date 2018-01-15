@@ -19,7 +19,7 @@ body{
 video{
     width: 100%!important;
     height: auto!important;
-    max-width: 1000px;
+    max-width: 600px;
 }
 h1,h2,h3,h4{
     font-weight: 700;
@@ -88,6 +88,7 @@ p.bottom-text {
     width: 450px;
     background: #fff;
     padding: 20px;
+    position:relative;
 }
 .content-right{
     width: 100%;
@@ -103,6 +104,14 @@ p.bottom-text {
     margin: 25px auto 40px auto;
     max-width: 300px;
     display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
 }
 .ini-title {
     font-size: 24px;
@@ -133,28 +142,30 @@ p.bottom-text {
 .q-single h3 {
     font-size: 28px;
     text-align: center;
-    margin-bottom: 40px;
-    color:#000;
+    margin-bottom: 2px;
+    color: #fff;
 }
 .question-ans ul{
     padding: 10px 30px;
-    padding-bottom: 30px;
+    padding-bottom: 18px;
+    width: 100%;
+    max-width: 641px;
+    margin: auto;
 }
 .question-ans ul li{
-    color:#000;
-    margin-bottom: 15px;
-    font-size: 18px;
+    color: #fff;
+    margin-bottom: 7px;
+    font-size: 15px;
 }
 .q-single{
     display: none;
      -webkit-transition: all .2s;
         -moz-transition: all .2s;
         transition: all .2s;
-        padding-top: 68px;
+        padding-top: 18px;
 }
 .counter {
-    min-height: 100%;
-    padding: 50px;
+        padding: 0px 20px;
     text-align: center;
     position: relative;
     display: none;
